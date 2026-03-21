@@ -1,6 +1,6 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { axe } from 'jest-axe';
+import React from 'react';
 
 import RocketChatVirtualizedList from './RocketChatVirtualizedList';
 import type { RocketChatVirtualizedListHandle } from './RocketChatVirtualizedList';
@@ -65,11 +65,7 @@ describe('RocketChatVirtualizedList', () => {
 	it('should have proper ARIA roles for accessibility', () => {
 		render(
 			<div style={{ height: '400px' }}>
-				<RocketChatVirtualizedList
-					items={['Item 1', 'Item 2']}
-					estimateSize={() => 40}
-					renderRow={(item) => <span>{item}</span>}
-				/>
+				<RocketChatVirtualizedList items={['Item 1', 'Item 2']} estimateSize={() => 40} renderRow={(item) => <span>{item}</span>} />
 			</div>,
 		);
 

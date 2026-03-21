@@ -22,6 +22,9 @@ export const useScrollState = (
 		};
 
 		viewport.addEventListener('scroll', handleScroll);
-		return () => viewport.removeEventListener('scroll', handleScroll);
+		return () => {
+			viewport.removeEventListener('scroll', handleScroll);
+			clearTimeout(timeoutRef.current);
+		};
 	}, [scrollElementRef, onScrollingChange]);
 };

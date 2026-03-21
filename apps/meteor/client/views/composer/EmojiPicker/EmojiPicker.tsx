@@ -12,7 +12,6 @@ import {
 import { useTranslation, usePermission, useRoute } from '@rocket.chat/ui-contexts';
 import type { ChangeEvent, KeyboardEvent, MouseEvent, RefObject } from 'react';
 import { useLayoutEffect, useState, useEffect, useRef } from 'react';
-import type { RocketChatVirtualizedListHandle } from '../../../components/RocketChatVirtualizedList';
 
 import CategoriesResult from './CategoriesResult';
 import EmojiPickerCategoryItem from './EmojiPickerCategoryItem';
@@ -22,6 +21,7 @@ import ToneSelector from './ToneSelector';
 import ToneSelectorWrapper from './ToneSelector/ToneSelectorWrapper';
 import { emoji, getCategoriesList, getEmojisBySearchTerm } from '../../../../app/emoji/client';
 import type { EmojiItem } from '../../../../app/emoji/client';
+import type { RocketChatVirtualizedListHandle } from '../../../components/RocketChatVirtualizedList';
 import { usePreviewEmoji, useEmojiPickerData } from '../../../contexts/EmojiPickerContext';
 import { useIsVisible } from '../../room/hooks/useIsVisible';
 

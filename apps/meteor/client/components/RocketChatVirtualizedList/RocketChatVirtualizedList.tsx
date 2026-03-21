@@ -1,9 +1,9 @@
 import { css } from '@rocket.chat/css-in-js';
 import { Box, Palette } from '@rocket.chat/fuselage';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { useOverlayScrollbars } from 'overlayscrollbars-react';
 import type { ReactElement, Ref } from 'react';
 import React, { useRef, useEffect, useImperativeHandle, forwardRef, memo } from 'react';
-import { useVirtualizer } from '@tanstack/react-virtual';
 
 import { useScrollState } from './useScrollState';
 import './RocketChatVirtualizedList.styles.css';
@@ -38,14 +38,7 @@ const getScrollbarsOptions = () =>
 	}) as const;
 
 function RocketChatVirtualizedListInner<T>(
-	{
-		items,
-		renderRow,
-		estimateSize = () => 40,
-		overscan = 5,
-		onRangeChanged,
-		onScrollingChange,
-	}: RocketChatVirtualizedListProps<T>,
+	{ items, renderRow, estimateSize = () => 40, overscan = 5, onRangeChanged, onScrollingChange }: RocketChatVirtualizedListProps<T>,
 	ref: Ref<RocketChatVirtualizedListHandle>,
 ) {
 	const rootRef = useRef<HTMLDivElement>(null);
@@ -87,13 +80,14 @@ function RocketChatVirtualizedListInner<T>(
 	}));
 
 	// Range changed callback (used for category tracking)
-	const range = virtualizer.range;
+	const startIndex = virtualizer.range?.startIndex;
+	const endIndex = virtualizer.range?.endIndex;
 
 	useEffect(() => {
-		if (range && onRangeChanged) {
-			onRangeChanged({ startIndex: range.startIndex, endIndex: range.endIndex });
+		if (startIndex != null && endIndex != null && onRangeChanged) {
+			onRangeChanged({ startIndex, endIndex });
 		}
-	}, [range, onRangeChanged]);
+	}, [startIndex, endIndex, onRangeChanged]);
 
 	// Scroll state detection (used for pointer-none during fast scroll)
 	useScrollState(scrollElementRef, onScrollingChange);
@@ -103,16 +97,8 @@ function RocketChatVirtualizedListInner<T>(
 
 	return (
 		<Box ref={rootRef} height='full' width='full' className={scrollbarsStyle}>
-			<div
-				ref={scrollElementRef}
-				className='rcx-virtualized-list__viewport'
-				role='list'
-				tabIndex={0}
-			>
-				<div
-					className='rcx-virtualized-list__track'
-					style={{ height: `${totalSize}px` }}
-				>
+			<div ref={scrollElementRef} className='rcx-virtualized-list__viewport' role='list'>
+				<div className='rcx-virtualized-list__track' style={{ height: `${totalSize}px` }}>
 					{virtualItems.map((virtualItem) => (
 						<div
 							key={virtualItem.key}
@@ -138,4 +124,3 @@ const RocketChatVirtualizedList = memo(forwardRef(RocketChatVirtualizedListInner
 ) => ReactElement | null;
 
 export default RocketChatVirtualizedList;
-
