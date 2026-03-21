@@ -12,7 +12,7 @@ import {
 import { useTranslation, usePermission, useRoute } from '@rocket.chat/ui-contexts';
 import type { ChangeEvent, KeyboardEvent, MouseEvent, RefObject } from 'react';
 import { useLayoutEffect, useState, useEffect, useRef } from 'react';
-import type { ListRange, VirtuosoHandle } from 'react-virtuoso';
+import type { RocketChatVirtualizedListHandle } from '../../../components/RocketChatVirtualizedList';
 
 import CategoriesResult from './CategoriesResult';
 import EmojiPickerCategoryItem from './EmojiPickerCategoryItem';
@@ -35,7 +35,7 @@ const EmojiPicker = ({ reference, onClose, onPickEmoji }: EmojiPickerProps) => {
 	const t = useTranslation();
 
 	const ref = useRef<Element | null>(reference);
-	const virtuosoRef = useRef<VirtuosoHandle>(null);
+	const virtuosoRef = useRef<RocketChatVirtualizedListHandle>(null);
 	const emojiContainerRef = useRef<HTMLDivElement>(null);
 
 	const [isVisibleRef, isInputVisible] = useIsVisible();
@@ -155,7 +155,7 @@ const EmojiPicker = ({ reference, onClose, onPickEmoji }: EmojiPickerProps) => {
 		setCustomItemsLimit(customItemsLimit + 90);
 	};
 
-	const handleScroll = (range: ListRange) => {
+	const handleScroll = (range: { startIndex: number; endIndex: number }) => {
 		const { startIndex } = range;
 
 		const category = categoriesIndexes.find(
