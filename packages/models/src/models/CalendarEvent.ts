@@ -48,6 +48,18 @@ export class CalendarEventRaw extends BaseRaw<ICalendarEvent> implements ICalend
 		);
 	}
 
+	public findByUserIdAndDateRange(uid: IUser['_id'], startDate: Date, endDate: Date): FindCursor<ICalendarEvent> {
+		return this.find(
+			{
+				uid,
+				startTime: { $gte: startDate, $lte: endDate },
+			},
+			{
+				sort: { startTime: 1 },
+			},
+		);
+	}
+
 	public async updateEvent(
 		eventId: ICalendarEvent['_id'],
 		{

@@ -5,6 +5,7 @@ import type { IBaseModel } from './IBaseModel';
 
 export interface ICalendarEventModel extends IBaseModel<ICalendarEvent> {
 	findByUserIdAndDate(uid: IUser['_id'], date: Date): FindCursor<ICalendarEvent>;
+	findByUserIdAndDateRange(uid: IUser['_id'], startDate: Date, endDate: Date): FindCursor<ICalendarEvent>;
 	updateEvent(eventId: ICalendarEvent['_id'], eventData: Partial<ICalendarEvent>): Promise<UpdateResult>;
 	findNextNotificationDate(): Promise<Date | null>;
 	findEventsToNotify(notificationTime: Date, minutes: number): FindCursor<ICalendarEvent>;

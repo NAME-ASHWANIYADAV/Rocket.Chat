@@ -38,12 +38,6 @@ export function addSettings(): void {
 					},
 				);
 
-				await this.add('Calendar_BusyStatus_Enabled', true, {
-					type: 'boolean',
-					public: true,
-					invalidValue: false,
-				});
-
 				/**
 				 * const defaultMapping = {
 				 *	'rocket.chat': {

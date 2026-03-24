@@ -2,6 +2,7 @@ import { createAccountSettings } from './accounts';
 import { createAnalyticsSettings } from './analytics';
 import { createAssetsSettings } from './assets';
 import { createBotsSettings } from './bots';
+import { addSettings as createCalendarSettings } from './calendar';
 import { createCasSettings } from './cas';
 import { createCrowdSettings } from './crowd';
 import { createEmojiSettings } from './custom-emoji';
@@ -42,6 +43,7 @@ await Promise.all([
 	createAnalyticsSettings(),
 	createAssetsSettings(),
 	createBotsSettings(),
+	createCalendarSettings(),
 	createCasSettings(),
 	createCrowdSettings(),
 	createEmojiSettings(),

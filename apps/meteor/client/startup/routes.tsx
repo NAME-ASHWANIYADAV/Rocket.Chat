@@ -24,6 +24,7 @@ const OAuthAuthorizationPage = lazy(() => import('../views/oauth/OAuthAuthorizat
 const OAuthErrorPage = lazy(() => import('../views/oauth/OAuthErrorPage'));
 const NotFoundPage = lazy(() => import('../views/notFound/NotFoundPage'));
 const CallHistoryPage = lazy(() => import('../views/mediaCallHistory/CallHistoryPage'));
+const CalendarPage = lazy(() => import('../views/calendar/CalendarPage'));
 
 declare module '@rocket.chat/ui-contexts' {
 	interface IRouterPaths {
@@ -110,6 +111,10 @@ declare module '@rocket.chat/ui-contexts' {
 		'call-history': {
 			pathname: `/call-history${`/details/${string}` | ''}`;
 			pattern: '/call-history/:tab?/:historyId?';
+		};
+		'calendar': {
+			pathname: '/calendar';
+			pattern: '/calendar';
 		};
 	}
 }
@@ -245,5 +250,14 @@ router.defineRoutes([
 		path: '*',
 		id: 'not-found',
 		element: <NotFoundPage />,
+	},
+	{
+		path: '/calendar',
+		id: 'calendar',
+		element: appLayout.wrap(
+			<MainLayout>
+				<CalendarPage />
+			</MainLayout>,
+		),
 	},
 ]);
