@@ -65,9 +65,17 @@ API.v1.get(
 	},
 	async function action() {
 		const { userId } = this;
-		const { date } = this.queryParams;
+		const queryParams = this.queryParams;
 
-		const data = await Calendar.list(userId, new Date(date));
+		let data: ICalendarEvent[];
+
+		if ('startDate' in queryParams && 'endDate' in queryParams) {
+			data = await Calendar.listByRange(userId, new Date(queryParams.startDate), new Date(queryParams.endDate));
+		} else if ('date' in queryParams) {
+			data = await Calendar.list(userId, new Date(queryParams.date));
+		} else {
+			return API.v1.failure('Missing required parameters: either "date" or "startDate" and "endDate"');
+		}
 
 		return API.v1.success({ data });
 	},

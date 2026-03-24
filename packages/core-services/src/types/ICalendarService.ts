@@ -7,6 +7,7 @@ export interface ICalendarService {
 	import(data: Omit<InsertionModel<ICalendarEvent>, 'notificationSent'>): Promise<ICalendarEvent['_id']>;
 	get(eventId: ICalendarEvent['_id']): Promise<ICalendarEvent | null>;
 	list(uid: IUser['_id'], date: Date): Promise<ICalendarEvent[]>;
+	listByRange(uid: IUser['_id'], startDate: Date, endDate: Date): Promise<ICalendarEvent[]>;
 	update(eventId: ICalendarEvent['_id'], data: Partial<ICalendarEvent>): Promise<UpdateResult | null>;
 	delete(eventId: ICalendarEvent['_id']): Promise<DeleteResult>;
 	setupNextNotification(): Promise<void>;
