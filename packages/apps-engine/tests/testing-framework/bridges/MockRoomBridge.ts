@@ -8,6 +8,8 @@ export class MockRoomBridge extends RoomBridge {
 
 	private roomMembers: Map<string, Array<IUser>> = new Map();
 
+	private idCounter = 0;
+
 	public seedRoom(room: IRoom): void {
 		this.rooms.set(room.id, room);
 	}
@@ -16,31 +18,24 @@ export class MockRoomBridge extends RoomBridge {
 		this.roomMembers.set(roomId, members);
 	}
 
-	public async doGetById(roomId: string, _appId: string): Promise<IRoom> {
-		return this.rooms.get(roomId);
+	public async doGetById(roomId: string, appId: string): Promise<IRoom> {
+		return this.getById(roomId, appId);
 	}
 
-	public async doGetByName(roomName: string, _appId: string): Promise<IRoom> {
-		for (const room of this.rooms.values()) {
-			if (room.slugifiedName === roomName || room.displayName === roomName) {
-				return room;
-			}
-		}
-		return undefined;
+	public async doGetByName(roomName: string, appId: string): Promise<IRoom> {
+		return this.getByName(roomName, appId);
 	}
 
-	public async doCreate(room: IRoom, _members: Array<string>, _appId: string): Promise<string> {
-		const id = room.id || `mock-room-${this.rooms.size + 1}`;
-		this.rooms.set(id, { ...room, id });
-		return id;
+	public async doCreate(room: IRoom, members: Array<string>, appId: string): Promise<string> {
+		return this.create(room, members, appId);
 	}
 
-	public async doGetMembers(roomId: string, _appId: string): Promise<Array<IUser>> {
-		return this.roomMembers.get(roomId) || [];
+	public async doGetMembers(roomId: string, appId: string): Promise<Array<IUser>> {
+		return this.getMembers(roomId, appId);
 	}
 
 	protected async create(room: IRoom, _members: Array<string>, _appId: string): Promise<string> {
-		const id = room.id || `mock-room-${this.rooms.size + 1}`;
+		const id = room.id || `mock-room-${++this.idCounter}`;
 		this.rooms.set(id, { ...room, id });
 		return id;
 	}
@@ -94,7 +89,7 @@ export class MockRoomBridge extends RoomBridge {
 		_members: Array<string>,
 		_appId: string,
 	): Promise<string> {
-		const id = room.id || `mock-discussion-${this.rooms.size + 1}`;
+		const id = room.id || `mock-discussion-${++this.idCounter}`;
 		this.rooms.set(id, { ...room, id });
 		return id;
 	}
@@ -136,5 +131,6 @@ export class MockRoomBridge extends RoomBridge {
 	public clear(): void {
 		this.rooms.clear();
 		this.roomMembers.clear();
+		this.idCounter = 0;
 	}
 }

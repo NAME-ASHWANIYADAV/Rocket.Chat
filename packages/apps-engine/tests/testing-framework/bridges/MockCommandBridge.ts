@@ -8,33 +8,28 @@ export class MockCommandBridge extends CommandBridge {
 
 	private disabledCommands: Set<string> = new Set();
 
-	public async doDoesCommandExist(command: string, _appId: string): Promise<boolean> {
-		return this.registeredCommands.has(command);
+	public async doDoesCommandExist(command: string, appId: string): Promise<boolean> {
+		return this.doesCommandExist(command, appId);
 	}
 
-	public async doEnableCommand(command: string, _appId: string): Promise<void> {
-		this.enabledCommands.add(command);
-		this.disabledCommands.delete(command);
+	public async doEnableCommand(command: string, appId: string): Promise<void> {
+		return this.enableCommand(command, appId);
 	}
 
-	public async doDisableCommand(command: string, _appId: string): Promise<void> {
-		this.disabledCommands.add(command);
-		this.enabledCommands.delete(command);
+	public async doDisableCommand(command: string, appId: string): Promise<void> {
+		return this.disableCommand(command, appId);
 	}
 
-	public async doModifyCommand(command: ISlashCommand, _appId: string): Promise<void> {
-		this.registeredCommands.set(command.command, command);
+	public async doModifyCommand(command: ISlashCommand, appId: string): Promise<void> {
+		return this.modifyCommand(command, appId);
 	}
 
-	public async doRegisterCommand(command: ISlashCommand, _appId: string): Promise<void> {
-		this.registeredCommands.set(command.command, command);
-		this.enabledCommands.add(command.command);
+	public async doRegisterCommand(command: ISlashCommand, appId: string): Promise<void> {
+		return this.registerCommand(command, appId);
 	}
 
-	public async doUnregisterCommand(command: string, _appId: string): Promise<void> {
-		this.registeredCommands.delete(command);
-		this.enabledCommands.delete(command);
-		this.disabledCommands.delete(command);
+	public async doUnregisterCommand(command: string, appId: string): Promise<void> {
+		return this.unregisterCommand(command, appId);
 	}
 
 	protected async doesCommandExist(command: string, _appId: string): Promise<boolean> {

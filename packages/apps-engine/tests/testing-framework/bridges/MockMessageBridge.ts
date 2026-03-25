@@ -16,38 +16,28 @@ export class MockMessageBridge extends MessageBridge {
 
 	private idCounter = 0;
 
-	public async doCreate(message: IMessage, _appId: string): Promise<string> {
-		const id = `mock-msg-${++this.idCounter}`;
-		this.messages.push({ ...message, id });
-		return id;
+	public async doCreate(message: IMessage, appId: string): Promise<string> {
+		return this.create(message, appId);
 	}
 
-	public async doUpdate(message: IMessage, _appId: string): Promise<void> {
-		this.updatedMessages.push(message);
-		const idx = this.messages.findIndex((m) => m.id === message.id);
-		if (idx !== -1) {
-			this.messages[idx] = message;
-		}
+	public async doUpdate(message: IMessage, appId: string): Promise<void> {
+		return this.update(message, appId);
 	}
 
-	public async doNotifyUser(user: IUser, message: IMessage, _appId: string): Promise<void> {
-		this.userNotifications.push({ user, message });
+	public async doNotifyUser(user: IUser, message: IMessage, appId: string): Promise<void> {
+		return this.notifyUser(user, message, appId);
 	}
 
-	public async doNotifyRoom(room: IRoom, message: IMessage, _appId: string): Promise<void> {
-		this.roomNotifications.push({ room, message });
+	public async doNotifyRoom(room: IRoom, message: IMessage, appId: string): Promise<void> {
+		return this.notifyRoom(room, message, appId);
 	}
 
-	public async doGetById(messageId: string, _appId: string): Promise<IMessage> {
-		return this.messages.find((m) => m.id === messageId);
+	public async doGetById(messageId: string, appId: string): Promise<IMessage> {
+		return this.getById(messageId, appId);
 	}
 
-	public async doDelete(message: IMessage, _user: IUser, _appId: string): Promise<void> {
-		this.deletedMessages.push(message);
-		const idx = this.messages.findIndex((m) => m.id === message.id);
-		if (idx !== -1) {
-			this.messages.splice(idx, 1);
-		}
+	public async doDelete(message: IMessage, user: IUser, appId: string): Promise<void> {
+		return this.delete(message, user, appId);
 	}
 
 	protected async create(message: IMessage, _appId: string): Promise<string> {

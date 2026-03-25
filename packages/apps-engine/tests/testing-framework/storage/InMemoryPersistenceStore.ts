@@ -35,7 +35,7 @@ export class InMemoryPersistenceStore {
 			return undefined;
 		}
 
-		return record.data;
+		return this.serialize(record.data);
 	}
 
 	public readByAssociations(associations: Array<{ model: string; id: string }>, _appId: string): Array<object> {
@@ -47,7 +47,7 @@ export class InMemoryPersistenceStore {
 			);
 
 			if (matchesAll) {
-				results.push(record.data);
+				results.push(this.serialize(record.data));
 			}
 		}
 
