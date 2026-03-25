@@ -1,0 +1,15 @@
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"rootDir": "../../",
+		"esModuleInterop": true,
+		"noUnusedLocals": false,
+		"noImplicitAny": true,
+		"strict": false,
+		"declaration": false
+	},
+	"include": [
+		"../../src/**/*",
+		"../../tests/**/*"
+	]
+}
